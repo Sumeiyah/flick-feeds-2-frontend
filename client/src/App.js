@@ -1,10 +1,12 @@
 import React from 'react';
-import Clubs from './Components/Clubs';
 import './App.css';
+import PostCard from './Components/PostCard';
+import Clubs from './Components/Clubs';
 
 function App() {
   return (
-    <div>
+    <div className="App">
+      <PostCard />
       <Clubs />
     </div>
   );
