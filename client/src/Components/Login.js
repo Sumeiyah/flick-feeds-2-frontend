@@ -54,7 +54,7 @@ function Login() {
           })
           navigate("/dashboard");
         } else {
-          // handle redirect or error message
+          // handle redirect or error messages
         }
       })
 
