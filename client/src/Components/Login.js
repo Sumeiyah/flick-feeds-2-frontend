@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-//import '../App.css';
+//import '../App.css';.
 import '../indexL.css';
 import LandingNavigation from './LandingNavigation'
 import { useNavigate } from "react-router-dom";
