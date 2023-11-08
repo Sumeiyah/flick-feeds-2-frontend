@@ -1,3 +1,4 @@
+// home.js
 import React from 'react';
 import SwiperComponent from './SwiperComponent';
 
