@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Landing from './Components/Landing'
 import Login from './Components/Login'; 
 import Signup from './Components/Signup';
-import Home from './Components/Home'
+import Home2 from './Components/Home2'
 import Profile from './Components/Profile'
 import ExploreMovie from './Components/ExploreMovie'
 import About from './Components/About'
@@ -26,7 +26,7 @@ function App() {
 
         <Route path='dashboard' element={ 
           <RequireAuth loginPath='/login'>
-            <Home/>
+            <Home2/>
           </RequireAuth>
          } />
 

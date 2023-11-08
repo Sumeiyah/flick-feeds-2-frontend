@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import LandingNavigation2 from './LandingNavigation2'
 
 const Clubs= () => {
   // State variables
@@ -155,6 +156,10 @@ const Clubs= () => {
 
   // JSX for rendering the component
   return (
+
+    <>
+    <LandingNavigation2 />
+
     <div className="club-card">
       <div className="search-and-create">
         <input
@@ -365,6 +370,7 @@ const Clubs= () => {
         })}
       </div>
     </div>
+    </>
   );
 };
 
