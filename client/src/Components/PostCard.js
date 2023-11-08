@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import LandingNavigation2 from './LandingNavigation2'
 
 function PostCard() {
   const [posts, setPosts] = useState([]);
@@ -19,6 +20,9 @@ function PostCard() {
   }, []);
 
   return (
+   
+    <>
+    <LandingNavigation2 />
     <div className="container mx-auto p-4">
       {posts.map((post) => (
         <div key={post.PostID} className="bg-red-800 text-black p-4 rounded-lg shadow-lg mb-4">
@@ -42,6 +46,7 @@ function PostCard() {
         </div>
       ))}
     </div>
+    </>
   );
 }
 
