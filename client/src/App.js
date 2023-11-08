@@ -1,15 +1,72 @@
-import React from 'react';
+import {Route, Routes} from 'react-router-dom'
+import { RequireAuth } from 'react-auth-kit'
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Landing from './Components/Landing'
+import Login from './Components/Login'; 
+import Signup from './Components/Signup';
+import Home from './Components/Home'
+import Profile from './Components/Profile'
+import ExploreMovies from './Components/ExploreMovies'
+import About from './Components/About'
 import PostCard from './Components/PostCard';
 import Clubs from './Components/Clubs';
 
 function App() {
   return (
-    <div className="App">
-      <PostCard />
-      <Clubs />
+    <div>
+      <Routes>
+        <Route path='/' element={ <Landing/> } /> 
+        <Route path='login' element={<Login />} />
+        <Route path='signup' element={<Signup />} />
+        
+        {/* <Route path='dashboard' element={<Home />} /> */}
+
+        <Route path='dashboard' element={ 
+          <RequireAuth loginPath='/login'>
+            <Home/>
+          </RequireAuth>
+         } />
+
+        {/* <Route path='profile' element={<Profile />} /> */}
+
+        <Route path='profile' element={ 
+          <RequireAuth loginPath='/profile'>
+            <Profile/>
+          </RequireAuth>
+         } />
+
+        {/* <Route path='explore-movies' element={<ExploreMovies />}/>  */}
+
+        <Route path='explore-movies' element={ 
+          <RequireAuth loginPath='/explore-movies'>
+            <ExploreMovies/>
+          </RequireAuth>
+         } />
+
+         {/* <Route path='movie-clubs' element={<MovieClub />} />  */}
+
+         <Route path='movie-clubs' element={ 
+          <RequireAuth loginPath='/movie-clubs'>
+            <Clubs/>
+          </RequireAuth>
+         } />
+
+         <Route path='movie-clubs' element={ 
+          <RequireAuth loginPath='/movie-clubs'>
+            <PostCard/>
+          </RequireAuth>
+         } />
+     
+        <Route path='about' element={<About />} />
+      </Routes>
     </div>
   );
 }
 
 export default App;
+
+
+
+
+
