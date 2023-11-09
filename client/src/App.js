@@ -1,4 +1,5 @@
 import React from 'react';
+import MovieClub from './Components/Clubs';
 import './App.css';
 import {Route, Routes} from 'react-router-dom'
 import { RequireAuth } from 'react-auth-kit'
