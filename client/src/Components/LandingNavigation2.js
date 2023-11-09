@@ -14,6 +14,8 @@ function Nav() {
             <Link to='/profile' className='logout-button'>Profile</Link>
             <Link to='/explore-movies' className='logout-button'>Explore movies</Link>
             <Link to='/movie-clubs' className='logout-button'>Movie clubs</Link>
+            <Link to='/post-cards' className='logout-button'>Post cards</Link>
+
             <Link to='/about' className='logout-button'>About</Link>
             <Link to='/' className='logout-button'>Log out</Link>
 
