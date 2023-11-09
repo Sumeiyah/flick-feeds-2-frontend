@@ -1,11 +1,11 @@
 import React from 'react';
-import Clubs from './Components/Clubs';
+import MovieClub from './Components/Clubs';
 import './App.css';
 
 function App() {
   return (
     <div>
-      <Clubs />
+      < MovieClub />
     </div>
   );
 }

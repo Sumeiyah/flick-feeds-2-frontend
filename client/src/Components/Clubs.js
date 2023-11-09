@@ -6,7 +6,7 @@ import ClubCard from './ClubCard';
 import Notification from './Notification';
 import theme from './theme';
 
-const Club = () => {
+const MovieClub = () => {
   const [clubs, setClubs] = useState([]);
   const [notification, setNotification] = useState('');
 
@@ -77,4 +77,4 @@ const Club = () => {
   );
 };
 
-export default Club;
+export default MovieClub;
