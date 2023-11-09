@@ -1,5 +1,5 @@
 import React from 'react';
-import MovieClub from './Components/Clubs';
+import MovieClub from './Components/MovieClub';
 import './App.css';
 import {Route, Routes} from 'react-router-dom'
 import { RequireAuth } from 'react-auth-kit'
@@ -12,7 +12,6 @@ import Profile from './Components/Profile'
 import ExploreMovie from './Components/ExploreMovie'
 import About from './Components/About'
 import PostCard from './Components/PostCard';
-import Clubs from './Components/Clubs';
 
 
 function App() {
@@ -52,7 +51,7 @@ function App() {
 
         <Route path='movie-clubs' element={ 
           <RequireAuth loginPath='/movie-clubs'>
-            <Clubs/>
+            <MovieClub/>
           </RequireAuth>
          } />
 
