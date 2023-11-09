@@ -11,7 +11,6 @@ const Club = () => {
   const [notification, setNotification] = useState('');
 
   useEffect(() => {
-    // Fetch the clubs from the backend when the component mounts
     const fetchClubs = async () => {
       try {
         const response = await fetch('https://flickfeeds-602d4f3e68d7.herokuapp.com/clubs');
@@ -25,19 +24,18 @@ const Club = () => {
     fetchClubs();
   }, []);
 
-  const handleCreateClub = async (club) => {
+  const handleCreateClub = async ({ Name, Genre, Description }) => {
     try {
       const response = await fetch('https://flickfeeds-602d4f3e68d7.herokuapp.com/create_club', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // Include other headers if needed
         },
-        body: JSON.stringify(club),
+        body: JSON.stringify({ Name, Genre, Description }),
       });
       if (response.ok) {
         const newClub = await response.json();
-        setClubs([...clubs, newClub]); // Add the new club to the local state
+        setClubs([...clubs, newClub]);
         setNotification('Club created successfully!');
       } else {
         throw new Error('Club creation failed');
@@ -52,10 +50,16 @@ const Club = () => {
     try {
       const response = await fetch(`https://flickfeeds-602d4f3e68d7.herokuapp.com/join_club/${clubId}`, {
         method: 'POST',
-        // Include headers and other configurations if required
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
-      const data = await response.json();
-      setNotification(data.message);
+      if (response.ok) {
+        const data = await response.json();
+        setNotification(data.message);
+      } else {
+        throw new Error('Joining club failed');
+      }
     } catch (error) {
       console.error('Error joining club:', error);
       setNotification('Failed to join club.');
@@ -65,7 +69,7 @@ const Club = () => {
   return (
     <div style={{ padding: '20px', backgroundColor: theme.colors.white }}>
       <h1 style={{ color: theme.colors.black }}>Movie Clubs</h1>
-      <SearchBar onSearch={() => {}} /> {/* Implement onSearch functionality as needed */}
+      <SearchBar onSearch={() => {}} />
       <CreateClubForm onCreate={handleCreateClub} />
       {notification && <Notification message={notification} />}
       <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
