@@ -40,7 +40,7 @@ function SignUp() {
           return res.json()
         })
         .then(data => {
-          navigate("/login");
+          navigate("/dashboard");
         })
     } else {
       alert('Password must be same')

@@ -1,10 +1,11 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import '../App.css'
 import '../Base.css'
-
 function Nav() {
   return (
     
+    <div className="landing-App">
      <div className='navigation'>
         <div className='links'>
             <Link to='/' className='home-link'>MVC</Link>
@@ -21,6 +22,9 @@ function Nav() {
 
         </div>
     </div>
+    </div>
+   
+ 
   )
 }
 
