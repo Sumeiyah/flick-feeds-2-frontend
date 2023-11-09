@@ -18,7 +18,7 @@ function Landing() {
       <LandingNavigation />
       <main className="landing-main">
         <section id="about" className="landing-about">
-          <h2>h</h2>
+          
           <p>
           
           </p>
