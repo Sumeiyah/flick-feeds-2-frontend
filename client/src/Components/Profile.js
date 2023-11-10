@@ -36,13 +36,13 @@ useEffect(()=>{
                     <div className="cols__container">
                         <div className="left__col">
                             <div className="img__container">
-                                <img src="https://media.istockphoto.com/id/485082268/photo/young-black-woman-at-home.jpg?s=612x612&w=0&k=20&c=bLnGdFCf7QbOXr0dYkq-OUVl9bNEB6cKyH-jtv6dGSo=" alt="Adam Smith" />
+                                <img src="https://images.pexels.com/photos/3768256/pexels-photo-3768256.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Adam Smith" />
                                 <span></span>
                             </div>
 
-                            <h2>Ann Smith</h2>
-                            <p>UI/UX Designer</p>
-                            <p>anna@example.com</p>
+                            <h2>Mark</h2>
+                            <p>Software developer</p>
+                            <p>mark@gmail.com</p>
 
                             <ul className="about">
                                 <li><span>6</span>Posts</li>

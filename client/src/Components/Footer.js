@@ -16,7 +16,7 @@ const Style2 = {
 
 function Footer() {
   return (
-    <div class="container" >
+    <div class="container-fluid" >
       <footer class="text-white text-center text-lg-start ms-5" style={Style2}>
         <div class="container p-3">
           <div class="row mt-4">

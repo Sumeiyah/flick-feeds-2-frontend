@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+
+
 const genres = ['Action', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Mystery', 'Romance', 'Sci-Fi', 'Thriller']; // Example genres
 
 const  MovieClub = () => {
@@ -52,6 +54,9 @@ const  MovieClub = () => {
   const filteredClubs = searchText ? clubsData.filter(club => club.Name.toLowerCase().includes(searchText.toLowerCase())) : clubsData;
 
   return (
+
+ 
+
     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px', backgroundColor: 'white' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <input
@@ -125,6 +130,7 @@ const  MovieClub = () => {
         ))}
       </div>
     </div>
+   
   );
 };
 

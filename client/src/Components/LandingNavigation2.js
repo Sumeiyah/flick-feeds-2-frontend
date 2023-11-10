@@ -8,7 +8,7 @@ function Nav() {
     <div className="landing-App">
      <div className='navigation'>
         <div className='links'>
-            <Link to='/' className='home-link'>MVC</Link>
+            <Link to='/dashboard' className='home-link'>MVC</Link>
         </div>
         <div className='buttons'>
 
