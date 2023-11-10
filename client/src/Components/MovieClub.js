@@ -1,76 +1,127 @@
-// Club.js
 import React, { useState, useEffect } from 'react';
-import SearchBar from './SearchBar';
-import CreateClubForm from './CreateClubForm';
-import ClubCard from './ClubCard';
-import Notification from './Notification';
-import theme from './theme';
+import axios from 'axios';
 
-const MovieClub = () => {
-  const [clubs, setClubs] = useState([]);
-  const [notification, setNotification] = useState('');
+const genres = ['Action', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Mystery', 'Romance', 'Sci-Fi', 'Thriller']; // Example genres
+
+const  MovieClub = () => {
+  const [clubsData, setClubsData] = useState([]);
+  const [postsData, setPostsData] = useState([]);
+  const [expandedClub, setExpandedClub] = useState(null);
+  const [searchText, setSearchText] = useState('');
+  const [showCreateClubForm, setShowCreateClubForm] = useState(false);
+  const [newClubData, setNewClubData] = useState({ Name: '', Genre: genres[0] });
 
   useEffect(() => {
-    // Fetch the clubs from the backend when the component mounts
-    const fetchClubs = async () => {
-      try {
-        const response = await fetch('https://flickfeeds-602d4f3e68d7.herokuapp.com/clubs');
-        const data = await response.json();
-        setClubs(data.clubs);
-      } catch (error) {
-        console.error('Error fetching clubs:', error);
-      }
+    const fetchClubsAndPosts = async () => {
+      const clubsResponse = await axios.get('https://flickfeeds-602d4f3e68d7.herokuapp.com/clubs');
+      setClubsData(clubsResponse.data.clubs.map(club => ({
+        ...club,
+        Description: `Join the exciting ${club.Name}, a hub for ${club.Genre} lovers to explore and discuss their passions.` // Generating a unique description
+      })));
+      const postsResponse = await axios.get('https://flickfeeds-602d4f3e68d7.herokuapp.com/posts');
+      setPostsData(postsResponse.data.posts);
     };
-
-    fetchClubs();
+    fetchClubsAndPosts();
   }, []);
 
-  const handleCreateClub = async (club) => {
+  const handleCreateClub = async (event) => {
+    event.preventDefault();
     try {
-      const response = await fetch('https://flickfeeds-602d4f3e68d7.herokuapp.com/create_club', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // Include other headers if needed
-        },
-        body: JSON.stringify(club),
-      });
-      if (response.ok) {
-        const newClub = await response.json();
-        setClubs([...clubs, newClub]); // Add the new club to the local state
-        setNotification('Club created successfully!');
-      } else {
-        throw new Error('Club creation failed');
-      }
+      const response = await axios.post('https://flickfeeds-602d4f3e68d7.herokuapp.com/create_club', newClubData);
+      setClubsData([...clubsData, { ...newClubData, ClubID: response.data.ClubID, Description: `Join the new ${newClubData.Name}, a place for ${newClubData.Genre} enthusiasts.` }]);
+      setShowCreateClubForm(false);
+      alert('Club created successfully!');
     } catch (error) {
-      console.error('Error creating club:', error);
-      setNotification('Failed to create club.');
+      alert('Failed to create club. Please try again.');
     }
   };
 
   const handleJoinClub = async (clubId) => {
     try {
-      const response = await fetch(`https://flickfeeds-602d4f3e68d7.herokuapp.com/join_club/${clubId}`, {
-        method: 'POST',
-        // Include headers and other configurations if required
-      });
-      const data = await response.json();
-      setNotification(data.message);
+      await axios.post(`https://flickfeeds-602d4f3e68d7.herokuapp.com/join_club/${clubId}`);
+      alert('Joined club successfully!');
     } catch (error) {
-      console.error('Error joining club:', error);
-      setNotification('Failed to join club.');
+      alert('Failed to join club. Please try again.');
     }
   };
 
+  const handleTogglePosts = (clubId) => {
+    setExpandedClub(expandedClub === clubId ? null : clubId);
+  };
+
+  const filteredClubs = searchText ? clubsData.filter(club => club.Name.toLowerCase().includes(searchText.toLowerCase())) : clubsData;
+
   return (
-    <div style={{ padding: '20px', backgroundColor: theme.colors.white }}>
-      <h1 style={{ color: theme.colors.black }}>Movie Clubs</h1>
-      <SearchBar onSearch={() => {}} /> {/* Implement onSearch functionality as needed */}
-      <CreateClubForm onCreate={handleCreateClub} />
-      {notification && <Notification message={notification} />}
-      <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
-        {clubs.map((club) => (
-          <ClubCard key={club.ClubID} club={club} onJoinClub={handleJoinClub} />
+    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px', backgroundColor: 'white' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <input
+          type="text"
+          placeholder="Search Club"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          style={{ flex: '1', marginRight: '10px', padding: '10px', fontSize: '16px', borderRadius: '4px', border: '1px solid #ddd' }}
+        />
+        <button
+          onClick={() => setShowCreateClubForm(!showCreateClubForm)}
+          style={{ backgroundColor: 'black', color: 'white', padding: '10px 20px', fontSize: '16px', border: 'none', cursor: 'pointer' }}
+        >
+          {showCreateClubForm ? 'Cancel' : 'Create Club'}
+        </button>
+      </div>
+
+      {showCreateClubForm && (
+        <div style={{ backgroundColor: 'white', color: 'black', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', marginBottom: '20px' }}>
+          <h3 style={{ marginTop: '0' }}>Create Club</h3>
+          <form onSubmit={handleCreateClub}>
+            <input
+              type="text"
+              placeholder="Club Name"
+              required
+              onChange={(e) => setNewClubData({ ...newClubData, Name: e.target.value })}
+              style={{ width: '100%', padding: '10px', fontSize: '16px', marginBottom: '10px', borderRadius: '4px', border: '1px solid #ddd' }}
+            />
+            <select
+              required
+              onChange={(e) => setNewClubData({ ...newClubData, Genre: e.target.value })}
+              style={{ width: '100%', padding: '10px', fontSize: '16px', marginBottom: '20px', borderRadius: '4px', border: '1px solid #ddd', background: 'white' }}
+            >
+              {genres.map((genre, index) => (
+                <option key={index} value={genre}>{genre}</option>
+              ))}
+            </select>
+            <button type="submit" style={{ backgroundColor: 'red', color: 'white', padding: '10px 20px', fontSize: '16px', border: 'none', cursor: 'pointer', display: 'block', width: '100%' }}>Create</button>
+          </form>
+        </div>
+      )}
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px' }}>
+        {filteredClubs.map((club) => (
+          <div key={club.ClubID} style={{ border: '1px solid #ddd', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', position: 'relative', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ padding: '20px', backgroundColor: '#fff', flex: '1' }}>
+              <h2 style={{ fontSize: '24px', margin: '0 0 10px 0', color: '#333' }}>{club.Name}</h2>
+              <p style={{ margin: '0 0 10px 0', color: '#555' }}>Genre: {club.Genre}</p>
+              <p style={{ margin: '0', color: '#555', flex: '1' }}>{club.Description}</p>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 20px', backgroundColor: '#f7f7f7' }}>
+              <button onClick={() => handleTogglePosts(club.ClubID)} style={{ backgroundColor: 'red', color: 'white', padding: '5px 10px', fontSize: '14px', border: 'none', cursor: 'pointer', borderRadius: '20px' }}>
+                {expandedClub === club.ClubID ? 'Hide Posts' : 'View Posts'}
+                </button>
+              {expandedClub === club.ClubID && (
+                <div style={{ maxHeight: '400px', overflowY: 'auto', backgroundColor: '#f7f7f7', padding: '10px', marginTop: '10px' }}>
+                  {postsData.filter(post => post.MovieID === club.ClubID).map((post) => (
+                    <div key={post.PostID} style={{ marginBottom: '10px', padding: '10px', backgroundColor: 'white', borderRadius: '4px' }}>
+                      <img src={post.ImagePath} alt="Post" style={{ maxWidth: '100px', marginBottom: '10px' }} />
+                      <p style={{ fontSize: '14px', margin: '0' }}>Rating: {post.Rating}</p>
+                      <p style={{ fontSize: '14px', margin: '0' }}>Review: {post.Review}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <button onClick={() => handleJoinClub(club.ClubID)} style={{ backgroundColor: 'black', color: 'white', padding: '10px', width: '100%', border: 'none', cursor: 'pointer', marginTop: '10px', borderRadius: '4px' }}>
+                Join Club
+              </button>
+            </div>
+          </div>
         ))}
       </div>
     </div>
@@ -78,3 +129,4 @@ const MovieClub = () => {
 };
 
 export default MovieClub;
+
