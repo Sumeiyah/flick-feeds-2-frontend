@@ -1,25 +1,36 @@
-// ClubCard.js
-import React, { useState } from 'react';
-import theme from './theme';
-import ClubPosts from './ClubPosts';
+import React from 'react';
 
 const ClubCard = ({ club, onJoinClub }) => {
-  const [showPosts, setShowPosts] = useState(false);
+  const cardStyle = {
+    backgroundColor: 'white',
+    padding: '10px',
+    margin: '10px 0',
+    border: '1px solid black',
+    borderRadius: '5px',
+  };
 
-  const togglePosts = () => setShowPosts(!showPosts);
+  const buttonStyle = {
+    backgroundColor: 'red',
+    color: 'white',
+    padding: '5px 10px',
+    margin: '5px',
+    border: 'none',
+    borderRadius: '3px',
+    cursor: 'pointer',
+  };
 
   return (
-    <div style={theme.card}>
+    <div style={cardStyle}>
       <h3>{club.Name}</h3>
       <p>{club.Genre}</p>
-      <p>{"Join us for discussions, movie nights, and more!"}</p>
-      <button onClick={togglePosts} style={{ ...theme.button, backgroundColor: theme.colors.primary, color: theme.colors.white }}>
-        View Posts
-      </button>
-      <button onClick={() => onJoinClub(club.ClubID)} style={{ ...theme.button, backgroundColor: theme.colors.black, color: theme.colors.white }}>
+      {/* Placeholder for a dynamic club description */}
+      <p>{`Join the ${club.Name} to discuss and share about ${club.Genre} movies!`}</p>
+      <button 
+        style={buttonStyle} 
+        onClick={() => onJoinClub(club.ClubID)}
+      >
         Join Club
       </button>
-      {showPosts && <ClubPosts clubId={club.ClubID} />}
     </div>
   );
 };
